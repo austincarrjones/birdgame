@@ -1,0 +1,38 @@
+<h1>Guess the bird by the sound!</h1>
+
+<audio controls>
+  <source src="<%= @bird.sound_file %>" type="audio/mpeg">
+</audio>
+
+<%= form_with url: game_path, method: :patch do |f| %>
+  <div>
+    <%= label_tag :guess, "Select the bird species:" %>
+    
+    <% @options.each do |option_bird| %>
+      <div>
+        <%= radio_button_tag :guess, option_bird.name %>
+        <%= label_tag "guess_#{option_bird.name}", option_bird.name %>
+      </div>
+    <% end %>
+  </div>
+  
+  <div>
+    <%= submit_tag "Submit Guess" %>
+  </div>
+<% end %>
+
+<% if flash[:notice] || flash[:alert] %>
+  <p style="color: <%= flash[:notice] ? 'green' : 'red' %>;">
+    <%= flash[:notice] || flash[:alert] %>
+  </p>
+
+  <img src="<%= @bird.image_url %>" alt="<%= @bird.name %> image" width="300">
+
+  <p>
+    <a href="<%= @bird.info_url %>" target="_blank" rel="noopener noreferrer">
+      Learn More about the <%= @bird.name %>
+    </a>
+  </p>
+
+  <%= link_to "Next", game_path, class: "button" %>
+<% end %>
