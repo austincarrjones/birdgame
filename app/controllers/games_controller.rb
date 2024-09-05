@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
 
   def show
-    @game = Game.find
+    # @game = Game.find
   end
 end
