@@ -1,8 +1,8 @@
 class GamesController < ApplicationController
-
   def show
     if params[:id]
       @bird = Bird.find_by(id: params[:id])
+      # binding.pry
     else
       @bird = Bird.order('RANDOM()').first
       # binding.pry
@@ -11,4 +11,14 @@ class GamesController < ApplicationController
     @options = (@other_birds + [@bird]).shuffle
   end
 
+  def update
+    @bird = Bird.find_by(id: params[:id])
+    # binding.pry
+    if params[:guess] == @bird.name
+      flash[:notice] = "Correct! It's a #{@bird.name}."
+    else
+      flash[:alert] = "Wrong! It was #{@bird.name}"
+    end
+    redirect_to game_path
+  end
 end
